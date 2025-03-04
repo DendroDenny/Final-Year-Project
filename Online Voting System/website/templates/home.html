@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block title %}Online Voting System{% endblock %} {% block content
+%}
+<style>
+  .vote-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* centers both horizontally and vertically */
+    width: 50%; 
+  }
+</style>
+<h1 align="center">Online Voting System</h1>
+<h4 align= "center"> Cast Your Votes!</h4align> </h4>
+<br></br>
+<div class="vote-container" align="center">
+  <form method="POST" action="{{ url_for('views.cast_vote') }}">
+    <input type="radio" name="voted_candidate" value="Candidate 1"> Candidate 1<br>
+    <input type="radio" name="voted_candidate" value="Candidate 2"> Candidate 2<br>
+    <input type="radio" name="voted_candidate" value="Candidate 3"> Candidate 3<br>
+    <br><br>
+    <button type="submit">Cast Vote</button>
+</form>
+    <br>
+    <br>
+</div>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
+<h4 align= "center"> Comment Section</h4align> </h4>
+<ul class="list-group list-group-flush" id="notes">
+  {% for note in user.notes %}
+  <li class="list-group-item">
+    {{ note.data }}
+    <button type="button" class="close" onClick="deleteNote('{{ note.id }}')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Leave a comment!</button>
+  </div>
+</form>
+<br></br>
+{% endblock %}
