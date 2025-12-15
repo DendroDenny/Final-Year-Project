@@ -1,42 +1,38 @@
 {% extends "base.html" %} {% block title %}Online Voting System{% endblock %} {% block content
 %}
-<style>
-  .vote-container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* centers both horizontally and vertically */
-    width: 50%; 
-  }
-</style>
 <h1 align="center">Online Voting System</h1>
 <h4 align= "center"> Cast Your Votes!</h4align> </h4>
 <br></br>
-<div class="vote-container" align="center">
+<div class="container" style="text-align: center;">
   <form method="POST" action="{{ url_for('views.cast_vote') }}">
+    <p>Who should be the leader of the current project?</p>
     <input type="radio" name="voted_candidate" value="Candidate 1"> Candidate 1<br>
     <input type="radio" name="voted_candidate" value="Candidate 2"> Candidate 2<br>
     <input type="radio" name="voted_candidate" value="Candidate 3"> Candidate 3<br>
+    <input type="radio" name="voted_candidate" value="Candidate 4"> Candidate 4<br>
+    <input type="radio" name="voted_candidate" value="Candidate 5"> Candidate 5<br>
+    <input type="radio" name="voted_candidate" value="Candidate 6"> Candidate 6<br>
+    <input type="radio" name="voted_candidate" value="Candidate 7"> Candidate 7<br>
+    <input type="radio" name="voted_candidate" value="Candidate 8"> Candidate 8<br>
+    <input type="radio" name="voted_candidate" value="Candidate 9"> Candidate 9<br>
+    <input type="radio" name="voted_candidate" value="Candidate 10"> Candidate 10<br>
+    <input type="radio" name="voted_candidate" value="Candidate 11"> Candidate 11<br>
+    <input type="radio" name="voted_candidate" value="Candidate 12"> Candidate 12<br>
+    <input type="radio" name="voted_candidate" value="Candidate 13"> Candidate 13<br>
+    <input type="radio" name="voted_candidate" value="Candidate 14"> Candidate 14<br>
+    <input type="radio" name="voted_candidate" value="Candidate 15"> Candidate 15<br>
+    <input type="radio" name="voted_candidate" value="Candidate 16"> Candidate 16<br>
+    <input type="radio" name="voted_candidate" value="Candidate 17"> Candidate 17<br>
+    <input type="radio" name="voted_candidate" value="Candidate 18"> Candidate 18<br>
+    <input type="radio" name="voted_candidate" value="Candidate 19"> Candidate 19<br>
+    <input type="radio" name="voted_candidate" value="Candidate 20"> Candidate 20<br>
+
     <br><br>
-    <button type="submit">Cast Vote</button>
+    <button type="submit" align="center">Cast Vote</button>
 </form>
     <br>
     <br>
 </div>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
 <br></br>
 
 <h4 align= "center"> Comment Section</h4align> </h4>

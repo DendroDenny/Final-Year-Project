@@ -4,6 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
 import hashlib
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from bot_detector import check_bot_email
 
 
 auth = Blueprint('auth', __name__)
@@ -56,6 +60,15 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
+            # Check if email is from a bot before creating account
+            try:
+                is_bot, confidence = check_bot_email(email)
+                if is_bot and confidence > 0.7:
+                    flash('Email appears to be automated. Please use a personal email.', category='error')
+                    return render_template("sign_up.html", user=current_user)
+            except:
+                pass  # Continue if bot detection fails
+                
             hashed_password = generate_password_hash(password1)
             new_user = User(email=email, first_name=first_name, password=hashed_password)
             db.session.add(new_user)

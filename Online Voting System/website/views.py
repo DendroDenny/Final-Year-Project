@@ -3,6 +3,10 @@ from flask_login import login_required, current_user
 from .models import Note, Vote
 from . import db
 import json
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from bot_detector import check_bot_email
 
 views = Blueprint('views', __name__)
 
@@ -11,13 +15,13 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     if request.method == 'POST': 
-        note = request.form.get('note')#Gets the note from the HTML 
+        note = request.form.get('note')
 
         if len(note) < 1:
             flash('Note is too short!', category='error') 
         else:
-            new_note = Note(data=note, user_id=current_user.id)  #providing the schema for the note 
-            db.session.add(new_note) #adding the note to the database 
+            new_note = Note(data=note, user_id=current_user.id)  
+            db.session.add(new_note) 
             db.session.commit()
             flash('Note added!', category='success')
 
@@ -50,11 +54,24 @@ def cast_vote():
             if existing_vote:
                 flash('You have already voted!', category='error')
             else:
-                # Create a new vote
-                new_vote = Vote(voted_candidate=voted_candidate, user_id=current_user.id)  # Use the correct model and fields
-                db.session.add(new_vote)  # Add the vote to the database
+                # Create a new vote with IP tracking
+                new_vote = Vote(
+                    voted_candidate=voted_candidate, 
+                    user_id=current_user.id,
+                    ip_address=request.remote_addr
+                )
+                db.session.add(new_vote)
                 db.session.commit()
-                flash('Vote Casted!', category='success')
+                
+                # Check if user email is from a bot
+                try:
+                    is_bot, confidence = check_bot_email(current_user.email)
+                    if is_bot and confidence > 0.7:
+                        flash('Vote recorded. Account flagged for verification.', category='warning')
+                    else:
+                        flash('Vote Casted!', category='success')
+                except Exception as e:
+                    flash('Vote Casted!', category='success')  # Fail gracefully
 
     return render_template("home.html", user=current_user)
 
